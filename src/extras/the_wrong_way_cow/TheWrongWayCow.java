@@ -44,27 +44,97 @@ package extras.the_wrong_way_cow;
 public class TheWrongWayCow {
 
     public static int[] findWrongWayCow(final char[][] field) {
-        // Fill in the code to return the x,y coordinate position of the
-        // head (letter 'c') of the wrong way cow!
+    	//ints to keep track of each instance of "cow"
+    	int leftCount = 0;
+    	int rightCount = 0;
+    	int upCount = 0;
+    	int downCount = 0;
     	
-    	System.out.println(field);
-    	System.out.println(field.length);
-    	//finding cow
-        for (int i = 0; i < field.length; i = i + 3) {
-			
+    	int[] leftHead = {0,0};
+    	int[] rightHead = {0,0};
+    	int[] downHead = {0,0};
+    	int[] upHead = {0,0};
+    	
+    	int[] counts = {0,0,0,0};
+    	int largest = 0;
+    	int second = 0;
+
+    	//[0] = horizontal
+    	
+    	//finding c/o/w aka up
+        for (int i = 0; i < field.length - 2; i++) {
+        	for (int j = 0; j < field[i].length; j++) {
+        		if(field[i][j] == 'c' && field[i+1][j] == 'o' && field[i+2][j] == 'w') {
+        			System.out.println("up");
+        			upHead[1] = i;
+        			upHead[0] = j;
+        			upCount++;
+        		}
+    		}
+		}      
+
+        //finding woc aka right
+        for (int i = 0; i < field.length - 2; i++) {
+        	for (int j = 0; j < field[i].length; j++) {
+        		if(field[i][j] == 'w' && field[i+1][j] == 'o' && field[i+2][j] == 'c') {
+        			System.out.println("right");
+        			rightHead[1] = i;
+        			rightHead[0] = j;
+        			rightCount++;
+        		}
+    		}
 		}
-        //finding woc
-        for (int i = 0; i < field.length; i = i + 3) {
-			
+          
+        //finding cow aka left
+        for (int i = 0; i < field.length; i++) {
+        	for (int j = 0; j < field[i].length - 2; j++) {
+        		if(field[i][j] == 'c' && field[i][j+1] == 'o' && field[i][j+2] == 'w') {
+        			System.out.println("left");
+        			leftHead[1] = i;
+        			leftHead[0] = j;
+        			leftCount++;
+        		}
+    		}
 		}
-        //finding c/o/w
-        for (int i = 0; i < field.length; i = i + 3) {
-			
+        System.out.println(leftHead[0]);
+        System.out.println(leftHead[1]);
+        //finding w/o/c aka down 
+        for (int i = 0; i < field.length; i++) {
+        	for (int j = 0; j < field[i].length - 2; j++) {
+        		if(field[i][j] == 'w' && field[i][j+1] == 'o' && field[i][j+2] == 'c') {
+        			System.out.println("down");
+        			downHead[1] = i;
+        			downHead[0] = j;
+        			downCount++;
+        		}
+    		}
 		}
-        //finding w/o/c     
-        for (int i = 0; i < field.length; i = i + 3) {
-			
+        
+        counts[0] = leftCount;
+        counts[1] = rightCount;
+        counts[2] = upCount;
+        counts[3] = downCount;
+        
+        for (int i = 0; i < counts.length; i++) {
+        	if (counts[i] > largest) {
+        		second  = largest;
+        		largest = counts[i];
+        	}
 		}
+        
+    		if (second == leftCount) {
+    			return leftHead;
+    		}
+        	if (second == rightCount) {
+        		return rightHead;
+			}
+        	if (second == upCount) {
+        		return upHead;
+			}
+        	if (second == downCount) {
+        		return downHead;
+			}
+      
         return null;
     }
 }
